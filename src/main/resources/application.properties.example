@@ -1,5 +1,5 @@
 #postgreSQL
-spring.datasource.url=jdbc:postgresql://localhost:5432/ProfileCreatorDb?createDatabaseIfNotExist=true
+spring.datasource.url=jdbc:postgresql://localhost:5432/LynBackDB?createDatabaseIfNotExist=true
 spring.datasource.username=
 spring.datasource.password=
 spring.jpa.hibernate.ddl-auto=update

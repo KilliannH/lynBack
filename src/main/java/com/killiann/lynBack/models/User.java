@@ -5,9 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = "users",
         uniqueConstraints = {
@@ -32,18 +29,15 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private String imageUrl;
 
     public User() {}
 
-    public User(String username, String email, String password) {
+    public User(String username, String email, String password, String imageUrl) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
@@ -78,13 +72,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
-
-
 }
