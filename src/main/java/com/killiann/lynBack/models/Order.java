@@ -1,6 +1,7 @@
 package com.killiann.lynBack.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.killiann.lynBack.models.enums.OrderState;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,8 @@ public class Order {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    private String state;
+
     private boolean isSold;
 
     public Order() {}
@@ -39,6 +42,7 @@ public class Order {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.isSold = false;
+        this.state = OrderState.CREATED.name();
         this.pizzas = new ArrayList<>();
     }
 
@@ -68,6 +72,14 @@ public class Order {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setSold(boolean sold) {
