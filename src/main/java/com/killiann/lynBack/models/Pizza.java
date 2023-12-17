@@ -14,14 +14,16 @@ public class Pizza {
     private Long id;
 
     private String name;
-    private float price;
+    private Float price;
 
     // relationships
     @JsonIgnoreProperties({"orders"})
     @ManyToMany(mappedBy = "pizzas")
     private Set<Order> orders;
 
-    public Pizza(String name, float price) {
+    public Pizza() {}
+
+    public Pizza(String name, Float price) {
         this.name = name;
         this.price = price;
     }
@@ -38,11 +40,11 @@ public class Pizza {
         this.name = name;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         this.price = price;
     }
 

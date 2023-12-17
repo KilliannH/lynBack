@@ -37,7 +37,7 @@ public class User {
 
     // relationships
 
-    @JsonIgnoreProperties({"order"})
+    @JsonIgnoreProperties({"orders"})
     @OneToMany(mappedBy = "owner")
     private Set<Order> orders;
 

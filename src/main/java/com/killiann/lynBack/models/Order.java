@@ -1,6 +1,12 @@
 package com.killiann.lynBack.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.killiann.lynBack.exceptions.PizzaNotFoundException;
+import com.killiann.lynBack.repositories.PizzaRepository;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,13 +28,18 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "pizza_id",
                     referencedColumnName = "id"))
     private List<Pizza> pizzas;
+
+    @JsonIgnoreProperties({"orders"})
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User owner;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     private boolean isSold;
+
+    public Order() {}
 
     public Order(User owner, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.owner = owner;
@@ -36,6 +47,10 @@ public class Order {
         this.updatedAt = updatedAt;
         this.isSold = false;
         this.pizzas = new ArrayList<>();
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public List<Pizza> getPizzas() {
