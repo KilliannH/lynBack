@@ -17,7 +17,7 @@ public class Pizza {
     private Float price;
 
     // relationships
-    @JsonIgnoreProperties({"orders"})
+    @JsonIgnoreProperties({"pizzas"})
     @ManyToMany(mappedBy = "pizzas")
     private Set<Order> orders;
 

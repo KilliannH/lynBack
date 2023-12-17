@@ -1,13 +1,14 @@
 package com.killiann.lynBack.controllers;
 
 import com.killiann.lynBack.exceptions.OrderNotFoundException;
-import com.killiann.lynBack.exceptions.PizzaNotFoundException;
 import com.killiann.lynBack.exceptions.UserNotFoundException;
 import com.killiann.lynBack.models.Order;
 import com.killiann.lynBack.models.Pizza;
 import com.killiann.lynBack.models.User;
 import com.killiann.lynBack.payloads.SetOwnerRequest;
+import com.killiann.lynBack.payloads.SetPizzasRequest;
 import com.killiann.lynBack.repositories.OrderRepository;
+import com.killiann.lynBack.repositories.PizzaRepository;
 import com.killiann.lynBack.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ public class OrderController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    PizzaRepository pizzaRepository;
 
     @GetMapping("/orders")
     public List<Order> all() {
@@ -67,6 +71,21 @@ public class OrderController {
         User owner = userRepository.findById(setOwnerRequest.getOwner()).orElseThrow(() -> new UserNotFoundException(setOwnerRequest.getOwner()));
 
         order.setOwner(owner);
+        return orderRepository.save(order);
+    }
+
+    @PostMapping("/orders/{id}/setPizzas")
+    Order setPizzas(@RequestBody SetPizzasRequest setPizzasRequest, @PathVariable Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+
+        Boolean checkPizzaIds = pizzaRepository.existsAllByIdIn(setPizzasRequest.getPizzaIds());
+
+        if(!checkPizzaIds) {
+            throw new RuntimeException("Error : Found unexpected pizzas in the list");
+        }
+
+        List<Pizza> pizzas = pizzaRepository.findAllById(setPizzasRequest.getPizzaIds());
+        order.setPizzas(pizzas);
         return orderRepository.save(order);
     }
 
